@@ -1,4 +1,5 @@
 import React from 'react';
+import { ReactComponent as Add } from '../icons/add.svg';
 import { nanoid } from 'nanoid';
 import {
   AddForm,
@@ -11,7 +12,7 @@ import { Formik, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 
 const schema = yup.object().shape({
-  name: yup.string().min(4).required(),
+  name: yup.string().min(1).required(),
   number: yup.number(),
 });
 
@@ -63,7 +64,10 @@ const inputForm = ({ onSubmit }) => {
           />
         </AddFormLabel>
 
-        <AddFormButton type="submit">Add contact</AddFormButton>
+        <AddFormButton type="submit">
+          Add
+          <Add widths="40px" height="40px" />
+        </AddFormButton>
       </AddForm>
     </Formik>
   );

@@ -5,6 +5,7 @@ import { PhonebookTitle, Phonebook, ContactTitle } from './Phonebook.styled';
 import InputForm from './InputForm';
 import ContactList from './ContactList';
 import SearchFilter from './Filter';
+// import Modal from './Modal';
 
 class App extends Component {
   state = {
@@ -15,7 +16,22 @@ class App extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
     filter: '',
+    showModal: false,
   };
+
+  componentDidMount() {
+    const local = localStorage.getItem('contacts');
+    const pars = JSON.parse(local);
+    if (pars) {
+      this.setState({ contacts: pars });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   addContact = ({ name, number }) => {
     const contact = { id: nanoid(), name, number };
@@ -26,17 +42,18 @@ class App extends Component {
         }));
   };
 
+  deleteContact = id => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== id),
+    }));
+  };
+
   changeFilter = e => {
     this.setState({
       filter: e.currentTarget.value,
     });
   };
 
-  deleteContact = id => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== id),
-    }));
-  };
   getVisibleFilter = () => {
     const { filter, contacts } = this.state;
     const normalizeFilter = filter.toLowerCase();
@@ -45,14 +62,32 @@ class App extends Component {
     );
   };
 
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
+
   render() {
     const { filter } = this.state;
+    // const { showModal} = this.state;
     const visibleFilter = this.getVisibleFilter();
 
     return (
       <Phonebook>
         <GlobalStyle />
-        <PhonebookTitle>Phonebook</PhonebookTitle>
+        <PhonebookTitle>
+          {/* <button type="button" onClick={this.toggleModal}>
+            Open modal
+          </button>
+          {showModal && (
+            <Modal onClose={this.toggleModal}>
+              <p>ream sssss sddd</p>
+              <button onClick={this.toggleModal}>close</button>
+            </Modal>
+          )} */}
+          Phonebook
+        </PhonebookTitle>
         <InputForm onSubmit={this.addContact} />
         <ContactTitle>Contacts</ContactTitle>
         <SearchFilter filter={filter} onChange={this.changeFilter} />

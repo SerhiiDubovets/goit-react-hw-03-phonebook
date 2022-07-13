@@ -44,7 +44,10 @@ export const ErrorPhone = styled.p`
 
 export const AddFormButton = styled.button`
   width: 150px;
-  height: 40px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 10px;
   background-color: #8073b3;
   transition: transform 250ms cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
@@ -59,5 +62,8 @@ export const AddFormButton = styled.button`
     box-shadow: rgb(39 37 37) -2px 3px 4px;
     background-color: #54506b;
     color: rgb(186, 161, 153);
+  }
+  > svg {
+    margin-left: 20px;
   }
 `;
